@@ -1,0 +1,55 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.2em;
+}
+body {
+    background-color: #fffbff;
+}
+main {
+    text-align: center;
+}
+
+ul,
+ol {
+    text-align: left;
+}
+
+img{
+    width: 100%;
+    max-width: 1000px;
+    max-height: 900px;
+}
+
+a {
+    color: #92817a;
+}
+
+#header {
+    text-align: center;
+}
+
+.imgSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.reviewsTable {
+    width: 100%;
+    margin: 2rem 0;
+}
+.reviewsTable th {
+    background-color: #92817a;
+    color: #f1dabf;
+}
+.reviewsTable td {
+    border: 1px solid #362417;
+    padding: 0.4rem;
+    margin: 0;
+}
+
+@media only screen and (max-width: 1060px) {
+    .imgSection {
+        flex-direction: column;
+    }
+}
