@@ -1,0 +1,27 @@
+*{
+    color: black;
+}
+
+html{
+    font-family: "Times New Roman", serif;
+    font-size: 12pt;
+    color: black;
+}
+
+body > header > h1{
+    font-size: 2rem;
+    text-align: center;
+}
+
+
+h2{
+    font-size: 1.3rem;
+}
+
+main > article > h2{
+    font-size: 1.6rem;
+}
+
+body > aside, .menuLink, body > nav{
+    display: none;
+}
