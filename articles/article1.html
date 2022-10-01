@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" media="screen" href="../public/css/screenStyle.css">
-    <link rel="stylesheet" media="print" href="./public/css/printStyle.css">
+    <link rel="stylesheet" media="print" href="../public/css/printStyle.css">
     <title>Charlie's Milk Steak</title>
 </head>
 
@@ -16,10 +16,16 @@
     <main>
         <div class="mainImgContainer">
 
-            <img srcset="../fig/milk-steak.jpg 120w,
+            <img class="colorImg" srcset="../fig/milk-steak.jpg 120w,
             ../fig/milk-steak.jpg 193w,
             ../fig/milk-steak.jpg 278w" src="../fig/milk-steak.jpg" alt='beef steak boiled in milk, with jelly beans'
                 sizes="(max-width: 710px) 120px,
+            (max-width: 991px) 193px,
+            278px">
+            <img class="blackWhiteImg" srcset="../fig/milk-steak-print.jpg 120w,
+            ../fig/milk-steak-print.jpg 193w,
+            ../fig/milk-steak-print.jpg 278w" src="../fig/milk-steak-print.jpg"
+                alt='beef steak boiled in milk, with jelly beans' sizes="(max-width: 710px) 120px,
             (max-width: 991px) 193px,
             278px">
             <section class="mainImgContainer-textSection">

@@ -1,27 +1,46 @@
-*{
+* {
     color: black;
 }
 
-html{
+html {
     font-family: "Times New Roman", serif;
     font-size: 12pt;
     color: black;
 }
 
-body > header > h1{
+body {
     font-size: 2rem;
+    text-align: left;
+}
+
+header,
+h4,
+h3 {
     text-align: center;
 }
 
-
-h2{
-    font-size: 1.3rem;
+img {
+    max-width: 50%;
 }
-
-main > article > h2{
+.colorImg {
+    display: none;
+}
+main {
     font-size: 1.6rem;
 }
 
-body > aside, .menuLink, body > nav{
+nav {
     display: none;
+}
+
+.reviewsTable {
+    width: 100%;
+}
+.reviewsTable th {
+    padding: 0.5rem;
+}
+.reviewsTable td {
+    border: 1px solid black;
+    padding: 0.4rem;
+    margin: 0;
 }
