@@ -31,9 +31,48 @@
         <p>A collection of recipes from pop culture! Made by <i>Yurii Cherniak</i> <a
                 href="mailto:yurii.cherniak@student.tuke.sk">yurii.cherniak@student.tuke.sk</a> </p>
     </main>
-    <!-- <footer>
-        <a href="#header">Return to top</a>
-    </footer> -->
+    <footer>
+        <form>
+            <input type="text" placeholder="Name" required />
+            <input type="email" placeholder="Email" required />
+            <input type="url" placeholder="Image url" />
+            <fieldset>
+                <legend>Will you reccomend our website to your friends?</legend>
+                <div>
+                    <input type="radio" name="reccomend" id="yes" value="yes" checked>
+                    <label for="yes">Yes</label>
+                </div>
+                <div>
+                    <input type="radio" name="reccomend" id="no" value="no">
+                    <label for="no">No</label>
+                </div>
+            </fieldset>
+            <div>
+                <input type="checkbox" id="tryed" name="tryed">
+                <label for="tryed">I will try one of these recipes in future</label>
+            </div>
+            <div>
+                <label for="review">Please enter your comment here:</label>
+                <textarea name="review" id="review" required></textarea>
+            </div>
+            <div>
+                <label for="recipies-choice">Choose the best recipe:</label>
+                <input list="recipies-list" id="recipies-choice" name="recipies-choice">
+
+                <datalist id="recipies-list">
+                    <option value="Milk steak">
+                    <option value="Pan galactic gargle blaster">
+                    <option value="Piemonade">
+                </datalist>
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+                <button type="reset">
+                    Reset
+                </button>
+            </div>
+        </form>
+    </footer>
 
 </body>
 
