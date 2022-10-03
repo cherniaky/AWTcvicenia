@@ -14,10 +14,17 @@ ol {
     text-align: left;
 }
 
-img{
+img {
     width: 100%;
     max-width: 1000px;
     max-height: 900px;
+}
+section {
+    margin: 1rem;
+    background-color: #f1dabf;
+    border-radius: 1rem;
+    padding: 1rem;
+    transition: 0.3s;
 }
 
 a {
