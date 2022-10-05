@@ -41,10 +41,16 @@ section {
     border-radius: 1rem;
     padding: 1rem;
     transition: 0.3s;
+    border: 1px solid #362417;
 }
 section:hover {
     background-color: transparent;
     border: 1px solid black;
+}
+.opinion-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 nav,
@@ -55,7 +61,7 @@ textarea {
     resize: vertical;
     width: 100%;
 }
-input{
+input {
     border: 1px solid black;
 }
 input:required,
