@@ -66,25 +66,54 @@ function createHtml4opinions(targetElm) {
     );
 }
 
-function fetchAndDisplayArticles(targetElm) {
-    const url = "https://wt.kpi.fei.tuke.sk/api/article";
+function fetchAndDisplayArticles(targetElm, current, totalCount) {
+    current = parseInt(current);
+    totalCount = parseInt(totalCount);
+    const data4rendering = {
+        currPage: current,
+        pageCount: totalCount,
+    };
+
+    if (current > 1) {
+        data4rendering.prevPage = current - 1;
+    }
+
+    if (totalCount && current < totalCount) {
+        data4rendering.nextPage = current + 1;
+    }
+
+    const url = `https://wt.kpi.fei.tuke.sk/api/article?max=20&offset=${
+        20 * (current - 1)
+    }`;
+    // document
+    //     .getElementsByClassName("articlesSection")
+    // .forEach((e) => (e.style.opacity = 0.5));
+    if (document.querySelector("#articles-container")) {
+        document.querySelector("#articles-container").style.opacity = "50%";
+    }
 
     function reqListener() {
-        // stiahnuty text
-        console.log(this.responseText);
         if (this.status == 200) {
+            const data = JSON.parse(this.responseText);
+            const maxPage = Math.ceil(data.meta.totalCount / 20);
+
+            if (!totalCount) {
+                location.href = location.href + "/" + maxPage;
+            }
+
             document.getElementById(targetElm).innerHTML = Mustache.render(
                 document.getElementById("template-articles").innerHTML,
-                JSON.parse(this.responseText)
+                {
+                    data,
+                    ...data4rendering,
+                }
             );
         } else {
             alert("Došlo k chybe: " + this.statusText);
         }
     }
-    console.log(url);
     var ajax = new XMLHttpRequest();
     ajax.addEventListener("load", reqListener);
     ajax.open("GET", url, true);
     ajax.send();
-    console.log("send");
 }

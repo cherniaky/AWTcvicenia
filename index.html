@@ -19,10 +19,10 @@
                 </path>
             </svg></h1>
     </header>
-    <nav class="mainNavigation">
+    <nav class="mainNavigation" id="mainNavigation">
         <ul>
             <li><a href='#welcome'>Welcome</a></li>
-            <li><a href='#articles'>Articles</a></li>
+            <li><a href='#articles/1'>Articles</a></li>
             <li><a href='#opinions'>Visitor opinions</a></li>
             <li><a href="#addOpinion">Add your opinion</a></li>
         </ul>
@@ -49,15 +49,36 @@
     </script>
 
     <script id="template-articles" type="text/template">
-        {{#articles}}
-        <article>
+        <div id="articles-container">
+        {{#data.articles}}
+        <section >
             <h2>{{title}}</h2>
             <p>
             by {{author}}
             </p>
-        </article>
-        {{/articles}}
-        <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+        </section>
+        {{/data.articles}}
+        </div>
+
+        <nav>
+        {{#prevPage}}
+            {{#pageCount}}
+            <a href="#articles/{{prevPage}}/{{pageCount}}"><< Previous page</a>
+            {{/pageCount}}
+            {{^pageCount}}
+            <a href="#articles/{{prevPage}}"><< Previous page</a>
+            {{/pageCount}}
+        {{/prevPage}}
+        {{#nextPage}}
+            {{#pageCount}}
+            <a href="#articles/{{nextPage}}/{{pageCount}}">Next page >></a>
+            {{/pageCount}}
+            {{^pageCount}}
+            <a href="#articles/{{nextPage}}">Next page >></a>
+            {{/pageCount}}
+        {{/nextPage}}
+        </nav>
+        <footer  class="menuLink"><a href="#mainNavigation">Back to the menu</a></footer>
     
     </script>
 
@@ -69,7 +90,7 @@
                 {{errMessage}}
             </p>
         </article>
-        <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+        <footer  class="menuLink"><a href="#mainNavigation">Back to the menu</a></footer>
     
     </script>
 
@@ -102,7 +123,7 @@
         </section>
         {{/.}}
             </div>
-        <footer  class="menuLink"><a href="/">Back to the menu</a></footer>
+        <footer  class="menuLink"><a href="#mainNavigation">Back to the menu</a></footer>
     </section>
     </script>
 
@@ -158,7 +179,7 @@
                 </div>
             </form>
         </section>
-            <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+            <footer  class="menuLink"><a href="#mainNavigation">Back to the menu</a></footer>
         </article>
     </script>
 
