@@ -1,14 +1,16 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" media="screen" href="../public/css/screenStyle.css">
-    <link rel="stylesheet" media="print" href="./public/css/printStyle.css">
+    <meta charset="UTF-8" />
+    <meta name="author" content="Yurii Cherniak" />
+    <link rel="stylesheet" href="css/printStyle.css" media="print" />
+    <link rel="stylesheet" href="css/screenStyle.css" media="screen" />
     <title>Pop culture recipes!</title>
 </head>
 
 <body class="mainPageBody">
+
     <header>
         <h1 id='header'>Recipes from pop culture!<svg class="mainSvg" focusable="false" aria-hidden="true"
                 style="height: 2rem; width: 2rem ;" viewBox="0 0 24 24">
@@ -19,24 +21,98 @@
     </header>
     <nav class="mainNavigation">
         <ul>
-            <li><a href='./articles/article1.html'>Milk steak</a></li>
-            <li><a href="./articles/article2.html">Pan galactic gargle blaster</a></li>
-            <li><a href="./articles/article3.html">Piemonade</a></li>
+            <li><a href='#welcome'>Welcome</a></li>
+            <li><a href='#articles'>Articles</a></li>
+            <li><a href='#opinions'>Visitor opinions</a></li>
+            <li><a href="#addOpinion">Add your opinion</a></li>
         </ul>
     </nav>
-    <main>
+    <main id="router-view">
         <span class="imgSection">
             <img src='fig/chef-boyardee.jpg' alt='a talented chef by the name of boyardee'>
         </span>
         <p>A collection of recipes from pop culture! Made by <i>Yurii Cherniak</i> <a
                 href="mailto:yurii.cherniak@student.tuke.sk">yurii.cherniak@student.tuke.sk</a> </p>
     </main>
-    <footer>
-        <section id="artOpinions">
-            <h3>Visitor Opinions:</h3>
-            <div id="opinionsContainer"></div>
+
+
+    <!--Templates for html, dynamically inserted by the router -->
+
+    <script id="template-welcome" type="text/template">
+    <article>
+        <h2>Welcome!</h2>
+        <p>
+            Welcome to my page. My name is <b>Yurii Cherniak</b>. I live in <i>magic sity Kosice</i>. I am a <i>young man</i>.
+            I love to discover new recipes and I would like to tell you something about my most favourite ones.
+        </p>
+    </article>
+    </script>
+
+    <script id="template-articles" type="text/template">
+        {{#articles}}
+        <article>
+            <h2>{{title}}</h2>
+            <p>
+            by {{author}}
+            </p>
+        </article>
+        {{/articles}}
+        <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+    
+    </script>
+
+    <script id="template-articles-error" type="text/template">
+
+        <article>
+            <h2>Articles acquisition failed</h2>
+            <p>
+                {{errMessage}}
+            </p>
+        </article>
+        <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+    
+    </script>
+
+    <script id="template-opinions" type="text/template">
+    <section  id="artOpinions">
+        <h3>Visitor Opinions:</h3>
+        <div id="opinionsContainer">
+        {{#.}}
+           <section class="opinion-section">
+            <h3>{{name}} <i>{{createdDate}}</i></h3>
+            <p>Email: {{email}}</p>
+            <p>Comment: {{comment}}</p>
+            {{#imgUrl}}
+                <img src="{{imgUrl}}" alt="Comment image">
+            {{/imgUrl}}
+            {{#willYouReccomendMessage}}
+                <p>{{willYouReccomendMessage}}</p>
+            {{/willYouReccomendMessage}}
+            {{#willTryRecipesMessage}}
+                <p>{{willTryRecipesMessage}}</p>
+            {{/willTryRecipesMessage}}
+            {{#bestRecipMessage}}
+                <p>{{bestRecipMessage}}</p>
+            {{/bestRecipMessage}}
         </section>
+        {{/.}}
+        {{^.}}
         <section>
+            Sorry, no opinions found.
+        </section>
+        {{/.}}
+            </div>
+        <footer  class="menuLink"><a href="/">Back to the menu</a></footer>
+    </section>
+    </script>
+
+    <script id="template-addOpinion" type="text/template">
+        <article  id="artOpnFrm">
+            <h2>Your Opinion</h2>
+            <p>
+                Please, use the form below to state your opinion about this page.
+            </p>
+           <section>
 
             <form id="opnFrm">
                 <div>
@@ -82,28 +158,16 @@
                 </div>
             </form>
         </section>
-
-    </footer>
-    <script type="module" src="js/index.js"></script>
-    <script id="mTmplOneOpinion" type="text/template">
-        <section class="opinion-section">
-            <h3>{{name}} <i>{{createdDate}}</i></h3>
-            <p>Email: {{email}}</p>
-            <p>Comment: {{comment}}</p>
-            {{#imgUrl}}
-                <img src="{{imgUrl}}" alt="Comment image">
-            {{/imgUrl}}
-            {{#willYouReccomendMessage}}
-                <p>{{willYouReccomendMessage}}</p>
-            {{/willYouReccomendMessage}}
-            {{#willTryRecipesMessage}}
-                <p>{{willTryRecipesMessage}}</p>
-            {{/willTryRecipesMessage}}
-            {{#bestRecipMessage}}
-                <p>{{bestRecipMessage}}</p>
-            {{/bestRecipMessage}}
-        </section>
+            <footer  class="menuLink"><a href="#menuTitle">Back to the menu</a></footer>
+        </article>
     </script>
+
+    <!--JavaScript code, inserted as a module-->
+    <script type="module" src="js/index.js"></script>
+
+
+
+
 </body>
 
 </html>
