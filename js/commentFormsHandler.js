@@ -19,7 +19,8 @@ export default class commentFormsHandler {
         cssClass2hideElement,
         articleId,
         offset,
-        totalCount
+        totalCount,
+        commentOffset
     ) {
         this.cssCl2hideElm = cssClass2hideElement;
         const artForm = document.getElementById(formElementId);
@@ -27,6 +28,7 @@ export default class commentFormsHandler {
         this.articleId = articleId;
         this.offset = offset;
         this.totalCount = totalCount;
+        this.commentOffset = commentOffset;
         artForm.onsubmit = (event) => this.processArtAddFrmData(event);
     }
 
@@ -84,7 +86,7 @@ export default class commentFormsHandler {
             })
             .finally(
                 () =>
-                    (window.location.hash = `#article/${this.articleId}/${this.offset}/${this.totalCount}/1`)
+                    (window.location.hash = `#article/${this.articleId}/${this.offset}/${this.totalCount}/${this.commentOffset}`)
             );
     }
 }

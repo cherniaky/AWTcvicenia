@@ -337,7 +337,7 @@ function fetchAndProcessArticle(
                 responseJSON.backLink = `#articles/${offsetFromHash}/${totalCountFromHash}`;
                 responseJSON.editLink = `#artEdit/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
                 responseJSON.deleteLink = `#artDelete/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
-                responseJSON.addCommentLink = `#articleAddComment/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}/1`;
+                responseJSON.addCommentLink = `#articleAddComment/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}/${commentOffsetFromHash}`;
 
                 addCommentsToArticle(
                     responseJSON,
@@ -375,7 +375,8 @@ function fetchAndProcessArticle(
                         "hiddenElm",
                         artIdFromHash,
                         offsetFromHash,
-                        totalCountFromHash
+                        totalCountFromHash,
+                        commentOffsetFromHash
                     );
                 }
             }
