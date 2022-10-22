@@ -10,6 +10,7 @@ import commentFormsHandler from "./commentFormsHandler.js";
 const urlBase = "https://wt.kpi.fei.tuke.sk/api";
 const articlesPerPage = 20;
 const commentsPerPage = 10;
+export const secretTag = "maloSaLa";
 
 //an array, defining the routes
 export default [
@@ -125,7 +126,7 @@ function fetchAndDisplayArticles(targetElm, current, totalCount) {
         data4rendering.nextPage = current + 1;
     }
 
-    const url = `${urlBase}/article?max=${articlesPerPage}&offset=${
+    const url = `${urlBase}/article?tag=${secretTag}&max=${articlesPerPage}&offset=${
         articlesPerPage * (current - 1)
     }`;
 
@@ -292,6 +293,10 @@ function fetchAndProcessArticle(
         // stiahnuty text
         if (this.status == 200) {
             const responseJSON = JSON.parse(this.responseText);
+            const index = responseJSON.tags.indexOf(secretTag);
+            if (index > -1) {
+                responseJSON.tags.splice(index, 1);
+            }
             if (forEdit) {
                 responseJSON.formTitle = "Article Edit";
                 responseJSON.submitBtTitle = "Save article";

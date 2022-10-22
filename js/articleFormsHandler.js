@@ -1,7 +1,4 @@
-/*
- * Created by Stefan Korecko, 2021
- * Functions to handle forms for article editing and inserting
- */
+const secretTag = "maloSaLa";
 
 /**
  Handles the form from the template:
@@ -219,7 +216,7 @@ export default class articleFormsHandler {
         }
 
         if (!articleData.tags) {
-            delete articleData.tags;
+            articleData.tags = [secretTag];
         } else {
             articleData.tags = articleData.tags.split(","); //zmeni retazec s tagmi na pole. Oddelovac poloziek je ciarka.
             //changes the string with tags to array. Comma is the separator
@@ -232,9 +229,10 @@ export default class articleFormsHandler {
             articleData.tags = articleData.tags.filter((tag) => tag); //odstráni tie tagy, ktoré sú teraz len prázdne reťazce
             //removes those tags that are now just empty strings
             if (articleData.tags.length == 0) {
-                delete articleData.tags;
+                articleData.tags = [secretTag];
             }
         }
+        articleData.tags.push(secretTag);
 
         //2. Set up the request
 
@@ -308,7 +306,7 @@ export default class articleFormsHandler {
         }
 
         if (!articleData.tags) {
-            delete articleData.tags;
+            articleData.tags = [secretTag];
         } else {
             articleData.tags = articleData.tags.split(","); //zmeni retazec s tagmi na pole. Oddelovac poloziek je ciarka.
             //changes the string with tags to array. Comma is the separator
@@ -321,9 +319,11 @@ export default class articleFormsHandler {
             articleData.tags = articleData.tags.filter((tag) => tag); //odstráni tie tagy, ktoré sú teraz len prázdne reťazce
             //removes those tags that are now just empty strings
             if (articleData.tags.length == 0) {
-                delete articleData.tags;
+                articleData.tags = [secretTag];
             }
         }
+
+        articleData.tags.push(secretTag);
 
         //2. Set up the request
 
