@@ -171,8 +171,13 @@ input:invalid {
 .linkAsButton {
     margin: 10px;
     background-color: #f1dabf;
+    font-size: 14px;
+    font-weight: bold;
+    color: #92817a;
+    border: none;
     border-radius: 5px;
     padding: 10px;
+    cursor: pointer;
 }
 
 @keyframes rotateCool {

@@ -225,7 +225,27 @@
             Sorry, no comments found.
              </section>
             {{/comments}}
-            <a href="{{addCommentLink}}" class="linkAsButton">Add Comment</a>
+            {{#addComment}}
+                <section>
+                    <h4>New Comment</h4>
+                    <form id="commentForm">
+                        <div>
+                            <label for="author">Author:</label>
+                            <input type="text" required placeholder="e.g. Jan Trieska" name="author" id="author"/>
+                        </div>
+                        <div>
+                            <label for="comment">Comment:</label>
+                            <textarea type="text" required name="comment" id="comment"></textarea>
+                        </div>
+                        <button type="submit" class="linkAsButton">Add comment</button>
+                        <a href="{{cancelLink}}"  class="linkAsButton">Cancel</a>
+                    </form>
+                </section>
+            {{/addComment}}
+            {{^addComment}}
+                <a href="{{addCommentLink}}" class="linkAsButton">Add Comment</a>
+            {{/addComment}}
+
         </section>
     
     </script>

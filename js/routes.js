@@ -5,6 +5,7 @@
 import Mustache from "./mustache.js";
 import processOpnFrmData from "./addOpinion.js";
 import articleFormsHandler from "./articleFormsHandler.js";
+import commentFormsHandler from "./commentFormsHandler.js";
 
 const urlBase = "https://wt.kpi.fei.tuke.sk/api";
 const articlesPerPage = 20;
@@ -59,6 +60,11 @@ export default [
         hash: "artInsert",
         target: "router-view",
         getTemplate: addArticle,
+    },
+    {
+        hash: "articleAddComment",
+        target: "router-view",
+        getTemplate: fetchAndDisplayArticleDetailWithComment,
     },
 ];
 
@@ -241,6 +247,15 @@ function addArticle(targetElm, offsetFromHash, totalCountFromHash) {
     );
 }
 
+function fetchAndDisplayArticleDetailWithComment(
+    targetElm,
+    artIdFromHash,
+    offsetFromHash,
+    totalCountFromHash
+) {
+    fetchAndProcessArticle(...arguments, false, true);
+}
+
 /**
  * Gets an article record from a server and processes it to html according to
  * the value of the forEdit parameter. Assumes existence of the urlBase global variable
@@ -261,7 +276,8 @@ function fetchAndProcessArticle(
     artIdFromHash,
     offsetFromHash,
     totalCountFromHash,
-    forEdit
+    forEdit,
+    addComment
 ) {
     const url = `${urlBase}/article/${artIdFromHash}`;
 
@@ -294,14 +310,33 @@ function fetchAndProcessArticle(
                 responseJSON.backLink = `#articles/${offsetFromHash}/${totalCountFromHash}`;
                 responseJSON.editLink = `#artEdit/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
                 responseJSON.deleteLink = `#artDelete/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
-                responseJSON.addCommentLink = `#article/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}/addComment`;
+                responseJSON.addCommentLink = `#articleAddComment/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
 
                 addCommentsToArticle(responseJSON);
 
+                if (addComment) {
+                    responseJSON.addComment = true;
+                    responseJSON.cancelLink = `#article/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
+                }
                 document.getElementById(targetElm).innerHTML = Mustache.render(
                     document.getElementById("template-article").innerHTML,
                     responseJSON
                 );
+
+                if (addComment) {
+                    if (!window.commentFrmHandler) {
+                        window.commentFrmHandler = new commentFormsHandler(
+                            "https://wt.kpi.fei.tuke.sk/api"
+                        );
+                    }
+                    window.commentFrmHandler.assignFormAndComment(
+                        "commentForm",
+                        "hiddenElm",
+                        artIdFromHash,
+                        offsetFromHash,
+                        totalCountFromHash
+                    );
+                }
             }
         } else {
             const errMsgObj = { errMessage: this.responseText };
