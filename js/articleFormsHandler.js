@@ -357,12 +357,14 @@ export default class articleFormsHandler {
             .then((responseJSON) => {
                 //here we process the returned response data in JSON ...
                 window.alert("Added article successfully saved on server");
+                // window.location.hash = `#article/${responseJSON.id}`;
             })
             .catch((error) => {
                 ////here we process all the failed promises
                 window.alert(
                     `Failed to save the new article on server. ${error}`
                 );
+                // window.location.hash = `#articles/1`;
             })
             .finally(() => (window.location.hash = `#articles/1`));
     }

@@ -54,10 +54,12 @@
         {{#data.articles}}
         <section >
             <h2><a href="{{detailLink}}">{{title}}</a></h2>  
+            <p>{{content}}</p>
             <p>
             by {{author}}
             </p>
         </section>
+       
         {{/data.articles}}
         </div>
 
@@ -208,6 +210,23 @@
             <a href="{{deleteLink}}" class="linkAsButton">Delete</a>
             <!-- <a href="#menuTitle" class="linkAsButton">Up to the menu</a> -->
         </footer>
+         <section>
+            <p>
+                Comments:
+            </p>
+            {{#comments}}
+            <section>
+                   <p> {{author}}</p>
+                   <p> {{text}}</p>
+                </section>
+            {{/comments}}
+             {{^comments}}
+             <section>
+            Sorry, no comments found.
+             </section>
+            {{/comments}}
+            <a href="{{addCommentLink}}" class="linkAsButton">Add Comment</a>
+        </section>
     
     </script>
 

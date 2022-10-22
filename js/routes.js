@@ -118,7 +118,7 @@ function fetchAndDisplayArticles(targetElm, current, totalCount) {
         data4rendering.nextPage = current + 1;
     }
 
-    const url = `${urlBase}/article?max=20&offset=${
+    const url = `${urlBase}/article?max=${articlesPerPage}&offset=${
         articlesPerPage * (current - 1)
     }`;
 
@@ -134,6 +134,9 @@ function fetchAndDisplayArticles(targetElm, current, totalCount) {
             if (!totalCount) {
                 location.href = location.href + "/" + maxPage;
             }
+            data.articles.map(async (article) => {
+                await addContentToArticle(article);
+            });
 
             addArtDetailLink2ResponseJson(data);
 
@@ -155,6 +158,23 @@ function fetchAndDisplayArticles(targetElm, current, totalCount) {
     var ajax = new XMLHttpRequest();
     ajax.addEventListener("load", reqListener);
     ajax.open("GET", url, true);
+    ajax.send();
+}
+
+async function addContentToArticle(article) {
+    const url = `${urlBase}/article/${article.id}`;
+
+    function reqListener() {
+        if (this.status == 200) {
+            const responseJSON = JSON.parse(this.responseText);
+
+            article.content = responseJSON.content;
+        }
+    }
+
+    var ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", reqListener);
+    ajax.open("GET", url, false);
     ajax.send();
 }
 
@@ -182,7 +202,6 @@ function deleteArticle(
     offsetFromHash,
     totalCountFromHash
 ) {
-    // fetchAndProcessArticle(...arguments, true);
     const url = `${urlBase}/article/${artIdFromHash}`;
 
     function reqListener() {
@@ -204,17 +223,6 @@ function deleteArticle(
 }
 
 function addArticle(targetElm, offsetFromHash, totalCountFromHash) {
-    // fetchAndProcessArticle(...arguments, true);
-    // const url = `${urlBase}/article`;
-
-    // function reqListener() {
-    // stiahnuty text
-    // console.log(this.responseText);
-    // if (this.status == 201) {
-    // responseJSON.formTitle = "Article Add";
-    // responseJSON.submitBtTitle = "Save article";
-    //  responseJSON.backLink = `#articles`;
-
     document.getElementById(targetElm).innerHTML = Mustache.render(
         document.getElementById("template-article-form").innerHTML,
         { formTitle: "Article Add", submitBtTitle: "Save article" }
@@ -231,17 +239,6 @@ function addArticle(targetElm, offsetFromHash, totalCountFromHash) {
         "",
         ""
     );
-    // alert("Adding was successful");
-    // } else {
-    //     alert("Adding was failed");
-    // }
-    // window.location.hash = `#articles/1`;
-    //}
-
-    // var ajax = new XMLHttpRequest();
-    // ajax.addEventListener("load", reqListener);
-    // ajax.open("DELETE", url, true);
-    // ajax.send();
 }
 
 /**
@@ -270,7 +267,6 @@ function fetchAndProcessArticle(
 
     function reqListener() {
         // stiahnuty text
-        console.log(this.responseText);
         if (this.status == 200) {
             const responseJSON = JSON.parse(this.responseText);
             if (forEdit) {
@@ -298,6 +294,9 @@ function fetchAndProcessArticle(
                 responseJSON.backLink = `#articles/${offsetFromHash}/${totalCountFromHash}`;
                 responseJSON.editLink = `#artEdit/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
                 responseJSON.deleteLink = `#artDelete/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
+                responseJSON.addCommentLink = `#article/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}/addComment`;
+
+                addCommentsToArticle(responseJSON);
 
                 document.getElementById(targetElm).innerHTML = Mustache.render(
                     document.getElementById("template-article").innerHTML,
@@ -313,9 +312,25 @@ function fetchAndProcessArticle(
         }
     }
 
-    console.log(url);
     var ajax = new XMLHttpRequest();
     ajax.addEventListener("load", reqListener);
     ajax.open("GET", url, true);
+    ajax.send();
+}
+
+async function addCommentsToArticle(article) {
+    const url = `${urlBase}/article/${article.id}/comment`;
+
+    function reqListener() {
+        if (this.status == 200) {
+            const responseJSON = JSON.parse(this.responseText);
+            // console.log(responseJSON);
+            article.comments = responseJSON.comments;
+        }
+    }
+
+    var ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", reqListener);
+    ajax.open("GET", url, false);
     ajax.send();
 }
