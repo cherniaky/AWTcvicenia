@@ -180,6 +180,10 @@ input:invalid {
     cursor: pointer;
 }
 
+.navigationComments{
+    margin: 10px 0;
+}
+
 @keyframes rotateCool {
     70% {
         transform: rotate(-300deg);

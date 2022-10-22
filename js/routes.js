@@ -9,6 +9,7 @@ import commentFormsHandler from "./commentFormsHandler.js";
 
 const urlBase = "https://wt.kpi.fei.tuke.sk/api";
 const articlesPerPage = 20;
+const commentsPerPage = 10;
 
 //an array, defining the routes
 export default [
@@ -104,7 +105,7 @@ function addArtDetailLink2ResponseJson(responseJSON) {
         detailLink: `#article/${article.id}/${
             (Number(responseJSON.meta.offset) + articlesPerPage) /
             articlesPerPage
-        }/${Math.ceil(responseJSON.meta.totalCount / articlesPerPage)}`,
+        }/${Math.ceil(responseJSON.meta.totalCount / articlesPerPage)}/1`,
     }));
 }
 
@@ -190,7 +191,7 @@ function fetchAndDisplayArticleDetail(
     offsetFromHash,
     totalCountFromHash
 ) {
-    fetchAndProcessArticle(...arguments, false);
+    fetchAndProcessArticle({ ...arguments }, false);
 }
 
 function editArticle(
@@ -199,7 +200,7 @@ function editArticle(
     offsetFromHash,
     totalCountFromHash
 ) {
-    fetchAndProcessArticle(...arguments, true);
+    fetchAndProcessArticle({ ...arguments }, true);
 }
 
 function deleteArticle(
@@ -251,9 +252,11 @@ function fetchAndDisplayArticleDetailWithComment(
     targetElm,
     artIdFromHash,
     offsetFromHash,
-    totalCountFromHash
+    totalCountFromHash,
+    commentOffsetFromHash,
+    commentTotalCountFromHash
 ) {
-    fetchAndProcessArticle(...arguments, false, true);
+    fetchAndProcessArticle({ ...arguments }, false, true);
 }
 
 /**
@@ -272,10 +275,14 @@ function fetchAndDisplayArticleDetailWithComment(
  *                  If true, it renders using template-article-form for editing.
  */
 function fetchAndProcessArticle(
-    targetElm,
-    artIdFromHash,
-    offsetFromHash,
-    totalCountFromHash,
+    {
+        0: targetElm,
+        1: artIdFromHash,
+        2: offsetFromHash,
+        3: totalCountFromHash,
+        4: commentOffsetFromHash,
+        5: commentTotalCountFromHash,
+    },
     forEdit,
     addComment
 ) {
@@ -288,7 +295,7 @@ function fetchAndProcessArticle(
             if (forEdit) {
                 responseJSON.formTitle = "Article Edit";
                 responseJSON.submitBtTitle = "Save article";
-                responseJSON.backLink = `#article/${artIdFromHash}/${offsetFromHash}/${totalCountFromHash}`;
+                responseJSON.backLink = `#article/${artIdFromHash}/${offsetFromHash}/${totalCountFromHash}/1`;
 
                 document.getElementById(targetElm).innerHTML = Mustache.render(
                     document.getElementById("template-article-form").innerHTML,
@@ -307,20 +314,54 @@ function fetchAndProcessArticle(
                     totalCountFromHash
                 );
             } else {
+                const data4rendering = {
+                    currPage: Number(commentOffsetFromHash),
+                    ...(commentTotalCountFromHash && {
+                        pageCount: Number(commentTotalCountFromHash),
+                    }),
+                    articleId: artIdFromHash,
+                    offset: offsetFromHash,
+                    totalCount: totalCountFromHash,
+                };
+
+                if (data4rendering.currPage > 1) {
+                    data4rendering.prevPage = data4rendering.currPage - 1;
+                }
+
+                if (
+                    data4rendering.pageCount &&
+                    data4rendering.currPage < data4rendering.pageCount
+                ) {
+                    data4rendering.nextPage = data4rendering.currPage + 1;
+                }
                 responseJSON.backLink = `#articles/${offsetFromHash}/${totalCountFromHash}`;
                 responseJSON.editLink = `#artEdit/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
                 responseJSON.deleteLink = `#artDelete/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
-                responseJSON.addCommentLink = `#articleAddComment/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
+                responseJSON.addCommentLink = `#articleAddComment/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}/1`;
 
-                addCommentsToArticle(responseJSON);
+                addCommentsToArticle(
+                    responseJSON,
+                    Number(commentOffsetFromHash)
+                );
+
+                if (!commentTotalCountFromHash) {
+                    location.href =
+                        location.href +
+                        "/" +
+                        Math.ceil(
+                            Number(responseJSON.commentsMeta.totalCount) /
+                                commentsPerPage
+                        );
+                }
 
                 if (addComment) {
                     responseJSON.addComment = true;
-                    responseJSON.cancelLink = `#article/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}`;
+                    responseJSON.cancelLink = `#article/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}/1`;
                 }
+
                 document.getElementById(targetElm).innerHTML = Mustache.render(
                     document.getElementById("template-article").innerHTML,
-                    responseJSON
+                    { ...responseJSON, ...data4rendering }
                 );
 
                 if (addComment) {
@@ -353,14 +394,18 @@ function fetchAndProcessArticle(
     ajax.send();
 }
 
-async function addCommentsToArticle(article) {
-    const url = `${urlBase}/article/${article.id}/comment`;
+async function addCommentsToArticle(article, currentCommentPage) {
+    const url = `${urlBase}/article/${
+        article.id
+    }/comment?max=${commentsPerPage}&offset=${
+        commentsPerPage * (currentCommentPage - 1)
+    }`;
 
     function reqListener() {
         if (this.status == 200) {
             const responseJSON = JSON.parse(this.responseText);
-            // console.log(responseJSON);
             article.comments = responseJSON.comments;
+            article.commentsMeta = responseJSON.meta;
         }
     }
 

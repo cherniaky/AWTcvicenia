@@ -277,7 +277,7 @@ export default class articleFormsHandler {
             })
             .finally(
                 () =>
-                    (window.location.hash = `#article/${this.articleId}/${this.offset}/${this.totalCount}`)
+                    (window.location.hash = `#article/${this.articleId}/${this.offset}/${this.totalCount}/1`)
             );
     }
 

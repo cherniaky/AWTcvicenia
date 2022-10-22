@@ -225,6 +225,26 @@
             Sorry, no comments found.
              </section>
             {{/comments}}
+
+             <nav class="navigationComments">
+        {{#prevPage}}
+            {{#pageCount}}
+            <a href="#article/{{articleId}}/{{offset}}/{{totalCount}}/{{prevPage}}/{{pageCount}}"><< Previous page</a>
+            {{/pageCount}}
+            {{^pageCount}}
+            <a href="#article/{{articleId}}/{{offset}}/{{totalCount}}/{{prevPage}}"><< Previous page</a>
+            {{/pageCount}}
+        {{/prevPage}}
+        {{#nextPage}}
+            {{#pageCount}}
+            <a href="#article/{{articleId}}/{{offset}}/{{totalCount}}/{{nextPage}}/{{pageCount}}">Next page >></a>
+            {{/pageCount}}
+            {{^pageCount}}
+            <a href="#article/{{articleId}}/{{offset}}/{{totalCount}}/{{nextPage}}">Next page >></a>
+            {{/pageCount}}
+        {{/nextPage}}
+        </nav>
+
             {{#addComment}}
                 <section>
                     <h4>New Comment</h4>
@@ -245,7 +265,7 @@
             {{^addComment}}
                 <a href="{{addCommentLink}}" class="linkAsButton">Add Comment</a>
             {{/addComment}}
-
+                
         </section>
     
     </script>
