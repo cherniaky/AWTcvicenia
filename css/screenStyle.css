@@ -162,6 +162,19 @@ input:invalid {
     justify-content: center;
 }
 
+.actionLinks{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.linkAsButton {
+    margin: 10px;
+    background-color: #f1dabf;
+    border-radius: 5px;
+    padding: 10px;
+}
+
 @keyframes rotateCool {
     70% {
         transform: rotate(-300deg);

@@ -50,6 +50,16 @@ export default [
         target: "router-view",
         getTemplate: editArticle,
     },
+    {
+        hash: "artDelete",
+        target: "router-view",
+        getTemplate: deleteArticle,
+    },
+    {
+        hash: "artInsert",
+        target: "router-view",
+        getTemplate: addArticle,
+    },
 ];
 
 function createHtml4opinions(targetElm) {
@@ -165,6 +175,75 @@ function editArticle(
 ) {
     fetchAndProcessArticle(...arguments, true);
 }
+
+function deleteArticle(
+    targetElm,
+    artIdFromHash,
+    offsetFromHash,
+    totalCountFromHash
+) {
+    // fetchAndProcessArticle(...arguments, true);
+    const url = `${urlBase}/article/${artIdFromHash}`;
+
+    function reqListener() {
+        // stiahnuty text
+        console.log(this.responseText);
+        if (this.status == 204) {
+            alert("Deleting was successful");
+        } else {
+            alert("Deleting was failed");
+        }
+        window.location.hash = `#articles/${offsetFromHash}/${totalCountFromHash}`;
+    }
+
+    console.log(url);
+    var ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", reqListener);
+    ajax.open("DELETE", url, true);
+    ajax.send();
+}
+
+function addArticle(targetElm, offsetFromHash, totalCountFromHash) {
+    // fetchAndProcessArticle(...arguments, true);
+    // const url = `${urlBase}/article`;
+
+    // function reqListener() {
+    // stiahnuty text
+    // console.log(this.responseText);
+    // if (this.status == 201) {
+    // responseJSON.formTitle = "Article Add";
+    // responseJSON.submitBtTitle = "Save article";
+    //  responseJSON.backLink = `#articles`;
+
+    document.getElementById(targetElm).innerHTML = Mustache.render(
+        document.getElementById("template-article-form").innerHTML,
+        { formTitle: "Article Add", submitBtTitle: "Save article" }
+    );
+    if (!window.artFrmHandler) {
+        window.artFrmHandler = new articleFormsHandler(
+            "https://wt.kpi.fei.tuke.sk/api"
+        );
+    }
+    window.artFrmHandler.assignFormAndArticle(
+        "articleForm",
+        "hiddenElm",
+        -1,
+        "",
+        ""
+    );
+    // alert("Adding was successful");
+    // } else {
+    //     alert("Adding was failed");
+    // }
+    // window.location.hash = `#articles/1`;
+    //}
+
+    // var ajax = new XMLHttpRequest();
+    // ajax.addEventListener("load", reqListener);
+    // ajax.open("DELETE", url, true);
+    // ajax.send();
+}
+
 /**
  * Gets an article record from a server and processes it to html according to
  * the value of the forEdit parameter. Assumes existence of the urlBase global variable
