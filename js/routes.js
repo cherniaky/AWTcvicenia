@@ -171,12 +171,16 @@ function fetchAndDisplayArticles(targetElm, current, totalCount) {
 
 async function addContentToArticle(article) {
     const url = `${urlBase}/article/${article.id}`;
+    const maxContentLenght = 20;
 
     function reqListener() {
         if (this.status == 200) {
             const responseJSON = JSON.parse(this.responseText);
 
-            article.content = responseJSON.content;
+            article.content =
+                responseJSON.content.length > maxContentLenght
+                    ? responseJSON.content.slice(0, maxContentLenght) + "..."
+                    : responseJSON.content;
         }
     }
 
