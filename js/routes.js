@@ -368,6 +368,14 @@ function fetchAndProcessArticle(
                     responseJSON.cancelLink = `#article/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}/1`;
                 }
 
+                if (window.localStorage.getItem("authGoogle").length > 0) {
+                    const userdata = JSON.parse(
+                        window.localStorage.getItem("authGoogle")
+                    );
+
+                    responseJSON.authUserName = userdata.given_name;
+                }
+
                 document.getElementById(targetElm).innerHTML = Mustache.render(
                     document.getElementById("template-article").innerHTML,
                     { ...responseJSON, ...data4rendering }

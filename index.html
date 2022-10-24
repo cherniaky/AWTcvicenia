@@ -262,7 +262,7 @@
                     <form id="commentForm">
                         <div>
                             <label for="author">Author:</label>
-                            <input type="text" required placeholder="e.g. Jan Trieska" name="author" id="author"/>
+                            <input type="text" value="{{authUserName}}" required placeholder="e.g. Jan Trieska" name="author" id="author"/>
                         </div>
                         <div>
                             <label for="comment">Comment:</label>
@@ -346,6 +346,14 @@
     <script type="module" src="js/articleFormsHandler.js"></script>
     <script>
 
+        if (window.localStorage.getItem("authGoogle").length > 0) {
+            const userdata = JSON.parse(window.localStorage.getItem("authGoogle"))
+            window.localStorage.setItem("authGoogle", JSON.stringify(userdata))
+            document.querySelector("#auth-container").innerHTML = `<div class="authInfoContainer">  ${userdata.given_name} <div class="linkAsButton" id="signout_button">Sign Out</div></div>`
+            const button = document.getElementById("signout_button");
+            button.onclick = signOut;
+        }
+
         function parseJwt(token) {
             var base64Url = token.split('.')[1];
             var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -357,12 +365,10 @@
         }
 
         function onSignIn(googleUser) {
-            // získame profil používateľa
-            // console.log('Úplné meno: ');
             console.log(parseJwt(googleUser.credential));
             const userdata = parseJwt(googleUser.credential)
             window.localStorage.setItem("authGoogle", JSON.stringify(userdata))
-            document.querySelector("#auth-container").innerHTML = `${userdata.given_name} <div class="g_id_signout" id="signout_button">Sign Out</div>`
+            document.querySelector("#auth-container").innerHTML = `<div class="authInfoContainer">  ${userdata.given_name} <div class="linkAsButton" id="signout_button">Sign Out</div></div>`
             const button = document.getElementById("signout_button");
             button.onclick = signOut;
         }

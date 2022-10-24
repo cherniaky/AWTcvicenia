@@ -195,6 +195,20 @@ input:invalid {
     top: 40px;
 }
 
+.authInfoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logOutBtn{
+    background-color: #362417;
+    border-radius: 4px;
+    color: white;
+    margin: 0 10px;
+}
+
+
 @keyframes rotateCool {
     70% {
         transform: rotate(-300deg);
