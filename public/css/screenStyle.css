@@ -18,7 +18,9 @@ ol {
 img {
     display: block;
     max-width: 30rem;
+    min-width: 1rem;
     max-height: 30rem;
+    min-height: 1rem;
     width: 90%;
     border-radius: 0.5rem;
     margin: 1rem;
