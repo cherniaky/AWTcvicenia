@@ -64,14 +64,18 @@ textarea {
 input {
     border: 1px solid black;
 }
+input:invalid {
+    background-color: rgb(192, 33, 33);
+    color: white;
+}
+input:invalid::placeholder {
+    color: white;
+}
 input:required,
 textarea:required {
-    border: 1px solid #c05a5a;
+    border: 2px solid #cc7474;
 }
 
-input:invalid {
-    border: 3px solid #c00000;
-}
 #header {
     text-align: center;
 }
@@ -158,6 +162,10 @@ input:invalid {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+#opnFrm div {
+    margin: 20px 0;
 }
 
 @keyframes rotateCool {
