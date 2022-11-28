@@ -39,21 +39,27 @@
     <!--Templates for html, dynamically inserted by the router -->
 
     <script id="template-welcome" type="text/template">
-    <article>
+    <span class="imgSection">
+            <img src='fig/chef-boyardee.jpg' alt='a talented chef by the name of boyardee'>
+        </span>
+        <p> Welcome to my page! <br> My name is <b>Yurii Cherniak</b>. I live in <i>magic sity Kosice</i>. I am a <i>young man</i>.
+            I love to discover new recipes and I would like to tell you something about my most favourite ones. Made by <i>Yurii Cherniak</i> <a
+                href="mailto:yurii.cherniak@student.tuke.sk">yurii.cherniak@student.tuke.sk</a> </p>
+        <!-- <article>
         <h2>Welcome!</h2>
         <p>
             Welcome to my page. My name is <b>Yurii Cherniak</b>. I live in <i>magic sity Kosice</i>. I am a <i>young man</i>.
             I love to discover new recipes and I would like to tell you something about my most favourite ones.
         </p>
-    </article>
+    </article> -->
     </script>
 
     <script id="template-articles" type="text/template">
         <div id="articles-container">
         {{#data.articles}}
         <section >
-            <h2>{{title}}</h2>
-            <p>
+            <h2 class="article-header">{{title}}</h2>
+            <p class="article-paragraph">
             by {{author}}
             </p>
         </section>

@@ -85,9 +85,7 @@ function fetchAndDisplayArticles(targetElm, current, totalCount) {
     const url = `https://wt.kpi.fei.tuke.sk/api/article?max=20&offset=${
         20 * (current - 1)
     }`;
-    // document
-    //     .getElementsByClassName("articlesSection")
-    // .forEach((e) => (e.style.opacity = 0.5));
+    
     if (document.querySelector("#articles-container")) {
         document.querySelector("#articles-container").style.opacity = "50%";
     }
