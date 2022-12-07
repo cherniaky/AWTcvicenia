@@ -85,7 +85,7 @@ function fetchAndDisplayArticles(targetElm, current, totalCount) {
     const url = `https://wt.kpi.fei.tuke.sk/api/article?max=20&offset=${
         20 * (current - 1)
     }`;
-    
+
     if (document.querySelector("#articles-container")) {
         document.querySelector("#articles-container").style.opacity = "50%";
     }
@@ -96,9 +96,10 @@ function fetchAndDisplayArticles(targetElm, current, totalCount) {
             const maxPage = Math.ceil(data.meta.totalCount / 20);
 
             if (!totalCount) {
-                location.href = location.href + "/" + maxPage;
+                return (location.href = location.href + "/" + maxPage);
             }
 
+            window.scrollTo({ top: 0, behavior: "smooth" });
             document.getElementById(targetElm).innerHTML = Mustache.render(
                 document.getElementById("template-articles").innerHTML,
                 {

@@ -1,7 +1,3 @@
-/*
- * Created by Stefan Korecko, 2020
- */
-
 export default class ParamHashRouter {
     constructor(routes, inithash) {
         this.routes = routes;
