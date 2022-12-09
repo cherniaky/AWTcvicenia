@@ -247,12 +247,17 @@ button:hover {
     margin: 0 10px;
 }
 
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
+
 .startAnimeContainer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     background-color: #04030f;
     z-index: 2;
     display: flex;

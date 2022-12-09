@@ -10,3 +10,9 @@ import Routes from "./routes.js";
 // window.drMenuCntrl = new DropdownMenuControl("menuIts", "menuTitle", "mnShow");
 
 window.router = new Router(Routes, window.location.hash);
+
+document.body.classList.add("stop-scrolling");
+
+setTimeout(() => {
+    document.body.classList.remove("stop-scrolling");
+}, 2500);
