@@ -59,18 +59,48 @@ footer {
 }
 textarea {
     resize: vertical;
-    width: 100%;
+    /* width: 80%; */
 }
-input {
-    border: 1px solid black;
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="datalist"],
+textarea,
+fieldset {
+    /* border: 1px solid black; */
+    border: 2px solid #f1dabf;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 2px;
+    width: 80%;
+}
+fieldset {
+    width: auto;
 }
 input:required,
 textarea:required {
-    border: 1px solid #c05a5a;
+    border: 2px solid #c05a5a;
 }
-
+.hiddenElm {
+    display: none;
+}
+.inputContainer {
+    padding: 5px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.articleFormContainer {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 1rem;
+}
 input:invalid {
-    border: 3px solid #c00000;
+    border: 2px solid #c00000;
 }
 #header {
     text-align: center;
@@ -168,25 +198,34 @@ input:invalid {
     align-items: center;
 }
 
-.linkAsButton {
-    margin: 10px;
+.linkAsButton,
+button {
+    margin: 5px;
     background-color: #f1dabf;
     font-size: 14px;
     font-weight: bold;
     color: #92817a;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
+    transition: 0.2s;
+}
+button:hover {
+    background-color: transparent;
+    border: 1px solid black;
+}
+.linkAsButton {
+    margin: 10px;
 }
 
 .navigationComments {
     margin: 10px 0;
 }
 .mainHeader {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; */
 }
 
 #auth-container {
@@ -198,20 +237,45 @@ input:invalid {
 .authInfoContainer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
-.logOutBtn{
+.logOutBtn {
     background-color: #362417;
     border-radius: 4px;
     color: white;
     margin: 0 10px;
 }
 
+.startAnimeContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #04030f;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: 2.5s animationStartContainer;
+    opacity: 0;
+    transform: translateX(-10000000%);
+}
+
+.svgAnimeOnLoad {
+    fill: white;
+    z-index: 3;
+    width: 20%;
+    height: 20%;
+    opacity: 0;
+    animation: 2.5s animationStartRotateCool;
+    transform: translateX(-10000000%);
+}
 
 @keyframes rotateCool {
     70% {
-        transform: rotate(-300deg);
+        transform: rotate(-180deg);
     }
 
     84% {
@@ -224,6 +288,55 @@ input:invalid {
 
     100% {
         transform: rotate(20deg);
+    }
+}
+@keyframes animationStartRotateCool {
+    0% {
+        display: block;
+        opacity: 1;
+        transform: translateX(0) rotate(0);
+    }
+    50% {
+        transform: rotate(-180deg);
+    }
+
+    60% {
+        transform: rotate(80deg);
+    }
+
+    70% {
+        transform: rotate(-40deg);
+    }
+    80% {
+        transform: rotate(20deg);
+    }
+
+    90% {
+        transform: rotate(-10deg) translateX(0);
+    }
+    99% {
+        transform: rotate(-10deg) translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(20deg) translateX(-100000%);
+    }
+}
+@keyframes animationStartContainer {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    90% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    99% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-1000000%);
+        opacity: 0;
     }
 }
 @media only screen and (max-width: 1050px) {

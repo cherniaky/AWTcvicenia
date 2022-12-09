@@ -38,8 +38,21 @@ export default [
         hash: "addOpinion",
         target: "router-view",
         getTemplate: (targetElm) => {
-            document.getElementById(targetElm).innerHTML =
-                document.getElementById("template-addOpinion").innerHTML;
+            const data4rendering = {};
+            if (window.localStorage.getItem("authGoogle").length > 0) {
+                const userdata = JSON.parse(
+                    window.localStorage.getItem("authGoogle")
+                );
+
+                data4rendering.authUserName = userdata.given_name;
+            }
+            data4rendering.bestRecipes = JSON.parse(
+                localStorage.getItem("bestRecipes")
+            );
+            document.getElementById(targetElm).innerHTML = Mustache.render(
+                document.getElementById("template-addOpinion").innerHTML,
+                data4rendering
+            );
             document.getElementById("opnFrm").onsubmit = processOpnFrmData;
         },
     },
@@ -235,9 +248,18 @@ function deleteArticle(
 }
 
 function addArticle(targetElm, offsetFromHash, totalCountFromHash) {
+    const data4rendering = {
+        formTitle: "Article Add",
+        submitBtTitle: "Save article",
+    };
+    if (window.localStorage.getItem("authGoogle").length > 0) {
+        const userdata = JSON.parse(window.localStorage.getItem("authGoogle"));
+
+        data4rendering.author = userdata.given_name;
+    }
     document.getElementById(targetElm).innerHTML = Mustache.render(
         document.getElementById("template-article-form").innerHTML,
-        { formTitle: "Article Add", submitBtTitle: "Save article" }
+        data4rendering
     );
     if (!window.artFrmHandler) {
         window.artFrmHandler = new articleFormsHandler(
@@ -305,6 +327,14 @@ function fetchAndProcessArticle(
                 responseJSON.formTitle = "Article Edit";
                 responseJSON.submitBtTitle = "Save article";
                 responseJSON.backLink = `#article/${artIdFromHash}/${offsetFromHash}/${totalCountFromHash}/1`;
+
+                if (window.localStorage.getItem("authGoogle").length > 0) {
+                    const userdata = JSON.parse(
+                        window.localStorage.getItem("authGoogle")
+                    );
+
+                    responseJSON.author = userdata.given_name;
+                }
 
                 document.getElementById(targetElm).innerHTML = Mustache.render(
                     document.getElementById("template-article-form").innerHTML,

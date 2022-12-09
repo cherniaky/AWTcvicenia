@@ -47,6 +47,15 @@
                 href="mailto:yurii.cherniak@student.tuke.sk">yurii.cherniak@student.tuke.sk</a> </p>
     </main>
 
+    <div class="startAnimeContainer">
+        <svg class="svgAnimeOnLoad" focusable="false" aria-hidden="true"
+            viewBox="0 0 24 24">
+            <path
+                d="M6.4 7c-.34.55-.4.97-.4 1.38C6 9.15 7 11 7 12c0 .95-.4 1.5-.4 1.5H5.1s.4-.55.4-1.5c0-1-1-2.85-1-3.62 0-.41.06-.83.4-1.38h1.5zm5 0c-.34.55-.4.97-.4 1.38 0 .77 1 2.62 1 3.62 0 .95-.4 1.5-.4 1.5h1.5s.4-.55.4-1.5c0-1-1-2.85-1-3.62 0-.41.06-.83.4-1.38h-1.5zM8.15 7c-.34.55-.4.97-.4 1.38 0 .77 1 2.63 1 3.62 0 .95-.4 1.5-.4 1.5h1.5s.4-.55.4-1.5c0-1-1-2.85-1-3.62 0-.41.06-.83.4-1.38h-1.5zm13.32-.5s.13-1.06.13-1.5c0-1.65-1.35-3-3-3-1.54 0-2.81 1.16-2.98 2.65L14.53 15H4.01c-.6 0-1.09.53-1 1.13C3.53 19.46 6.39 22 9.75 22c3.48 0 6.34-2.73 6.71-6.23L17.61 4.9c.05-.51.47-.9.99-.9.55 0 1 .45 1 1 0 .3-.1 1.25-.1 1.25l1.97.25z">
+            </path>
+        </svg>
+    </div>
+
 
     <!--Templates for html, dynamically inserted by the router -->
 
@@ -150,15 +159,15 @@
            <section>
 
             <form id="opnFrm">
-                <div>
+                <div class="inputContainer">
                     <label for="nameInp">Your name:</label>
-                    <input type="text" placeholder="Name" id="nameInp" required />
+                    <input type="text" placeholder="Name" id="nameInp" value="{{authUserName}}" required />
                 </div>
-                <div>
+                <div class="inputContainer">
                     <label for="emailInp">Your email:</label>
                     <input type="email" placeholder="Email" required id="emailInp" />
                 </div>
-                <div>
+                <div class="inputContainer">
                     <label for="imgeInp">Image url:</label>
                     <input type="url" placeholder="Image url" id="imgInp" />
                 </div>
@@ -171,25 +180,28 @@
                     <input type="checkbox" id="willTryInp" name="tryed">
                     <label for="tryed">I will try one of these recipes in future</label>
                 </div>
-                <div>
+                <div class="inputContainer">
                     <label for="review">Please enter your comment here:</label>
                     <textarea name="review" id="commentInp" required></textarea>
                 </div>
-                <div>
+                <div class="inputContainer">
                     <label for="recipies-choice">Choose the best recipe:</label>
-                    <input list="recipies-list" id="bestRecipInp" name="recipies-choice">
+                    <input type="datalist" list="recipies-list" id="bestRecipInp" name="recipies-choice">
 
                     <datalist id="recipies-list">
-                        <option value="Milk steak">
-                        <option value="Pan galactic gargle blaster">
-                        <option value="Piemonade">
+                        {{#bestRecipes}}
+                        <option value="{{.}}">
+
+                        {{/bestRecipes}}
+                        <!-- <option value="Pan galactic gargle blaster"> -->
+                        <!-- <option value="Piemonade"> -->
                     </datalist>
                 </div>
                 <div>
-                    <input type="submit" value="Submit">
                     <button type="reset">
                         Reset
                     </button>
+                    <input class="linkAsButton" type="submit" value="Submit">
                 </div>
             </form>
         </section>
@@ -219,7 +231,7 @@
             <a href="{{backLink}}" class="linkAsButton"><< Back</a>
             <a href="{{editLink}}" class="linkAsButton">Edit</a>
             <a href="{{deleteLink}}" class="linkAsButton">Delete</a>
-            <!-- <a href="#menuTitle" class="linkAsButton">Up to the menu</a> -->
+            <a href="#mainNavigation" class="linkAsButton">Up to the menu</a>
         </footer>
          <section>
             <p>
@@ -260,11 +272,11 @@
                 <section>
                     <h4>New Comment</h4>
                     <form id="commentForm">
-                        <div>
+                        <div class="inputContainer">
                             <label for="author">Author:</label>
                             <input type="text" value="{{authUserName}}" required placeholder="e.g. Jan Trieska" name="author" id="author"/>
                         </div>
-                        <div>
+                        <div class="inputContainer">
                             <label for="comment">Comment:</label>
                             <textarea type="text" required name="comment" id="comment"></textarea>
                         </div>
@@ -282,26 +294,31 @@
     </script>
 
     <script id="template-article-form" type="text/template">
-        <article>
-            <h2>{{formTitle}}</h2> <br><br>
+        <article class="articleFormContainer">
+            <h2>{{formTitle}}</h2> 
     
             <form id="articleForm">
-                <label for="author">Author:</label>
-                <input type="text" name="author" id="author" value="{{author}}" size="50" 
-                       title="Article author, max. length 100 characters." 
-                       maxlength="100" placeholder="e.g. Ján Trieska" />
-                <br>
-                <label for="title">Title:</label>
-                <input type="text" name="title" id="title" value="{{title}}" size="50"  
-                       maxlength="100" pattern="\S[\S\s]*" placeholder="e.g. My story." required 
-                       title="Article title, mandatory item, max. length: 100 characters. 
-    The first character must not be a space."  />
-                <br>
-                <label for="imageLink">Image (url):</label>
-                <input type="url" name="imageLink" id="imageLink" value="{{imageLink}}" size="50" 
-                       title="Image URL, max. length 100 characters." maxlength="100"/>
-                <br>
-                <label></label>
+                <div class="inputContainer">
+
+                    <label for="author">Author:</label>
+                    <input type="text" name="author" id="author" value="{{author}}" size="50" 
+                    title="Article author, max. length 100 characters." 
+                    maxlength="100" placeholder="e.g. Ján Trieska" />
+                </div>
+                <div class="inputContainer">
+
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" id="title" value="{{title}}" size="50"  
+                    maxlength="100" pattern="\S[\S\s]*" placeholder="e.g. My story." required 
+                    title="Article title, mandatory item, max. length: 100 characters. 
+                    The first character must not be a space."  />
+                </div>
+                <div class="inputContainer">
+
+                    <label for="imageLink">Image (url):</label>
+                    <input type="url" name="imageLink" id="imageLink" value="{{imageLink}}" size="50" 
+                    title="Image URL, max. length 100 characters." maxlength="100"/>
+                </div>
                 <button type="button" id="btShowFileUpload">
                     Upload image
                 </button>
@@ -315,21 +332,22 @@
                     <button type="button" id="btCancelFileUpload">
                         Cancel uploading </button>
                 </fieldset>
-    
-    
-                <br>
-                <label for="content">Article content:</label>
-                <textarea
-                        name="content" id="content" spellcheck="true" lang="sk"
-                        cols="50" rows="20" required
-                        title="Article content, mandatory item, can be plain text or in HTML.">
-                  {{content}}
+                <div class="inputContainer">
+
+                    <label for="content">Article content:</label>
+                    <textarea
+                    name="content" id="content" spellcheck="true" lang="sk"
+                    cols="50" rows="20" required
+                    title="Article content, mandatory item, can be plain text or in HTML.">
+                    {{content}}
                 </textarea>
-                <br>
-                <label for="tags">Keywords:</label>
-                <input  type="text" name="tags" id="tags" value="{{tags}}" size="50"
-                        title="Keyword list, comma separated." placeholder="e.g. village, drama" />
-                <br> <br>
+            </div>
+                <div class="inputContainer">
+
+                    <label for="tags">Keywords:</label>
+                    <input  type="text" name="tags" id="tags" value="{{tags}}" size="50"
+                    title="Keyword list, comma separated." placeholder="e.g. village, drama" />
+                </div>
                 <button type="reset"> Reset Form </button>
                 <button type="submit"> {{submitBtTitle}} </button>
     
@@ -338,7 +356,7 @@
     
         <footer class="actionLinks">
             <a href="{{backLink}}" class="linkAsButton">Back</a>
-            <a href="#menuTitle" class="linkAsButton">Up to the menu</a>
+            <a href="#mainNavigation" class="linkAsButton">Up to the menu</a>
         </footer>
     </script>
     <!--JavaScript code, inserted as a module-->

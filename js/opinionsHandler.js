@@ -1,4 +1,3 @@
-
 export default class OpinionsHandler {
     /**
      * constructor
@@ -70,6 +69,12 @@ export default class OpinionsHandler {
             created: new Date(),
         };
 
+        const bestRecipes = JSON.parse(localStorage.getItem("bestRecipes"));
+
+        if (bestRecipInp && !bestRecipes.include(bestRecipInp)) {
+            bestRecipes.push(bestRecipInp);
+            localStorage.setItem("bestRecipes", JSON.stringify(bestRecipes));
+        }
         console.log("New opinion:\n " + JSON.stringify(newOpinion));
 
         this.opinions.push(newOpinion);
