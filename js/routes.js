@@ -39,7 +39,7 @@ export default [
         target: "router-view",
         getTemplate: (targetElm) => {
             const data4rendering = {};
-            if (window.localStorage.getItem("authGoogle").length > 0) {
+            if (window.localStorage.getItem("authGoogle")?.length > 0) {
                 const userdata = JSON.parse(
                     window.localStorage.getItem("authGoogle")
                 );
@@ -227,24 +227,28 @@ function deleteArticle(
     offsetFromHash,
     totalCountFromHash
 ) {
-    const url = `${urlBase}/article/${artIdFromHash}`;
+    if (
+        confirm("Are you sure you want to delete this article?")
+    ) {
+        const url = `${urlBase}/article/${artIdFromHash}`;
 
-    function reqListener() {
-        // stiahnuty text
-        console.log(this.responseText);
-        if (this.status == 204) {
-            alert("Deleting was successful");
-        } else {
-            alert("Deleting was failed");
+        function reqListener() {
+            // stiahnuty text
+            console.log(this.responseText);
+            if (this.status == 204) {
+                alert("Deleting was successful");
+            } else {
+                alert("Deleting was failed");
+            }
+            window.location.hash = `#articles/1`;
         }
-        window.location.hash = `#articles/${offsetFromHash}/${totalCountFromHash}`;
-    }
 
-    console.log(url);
-    var ajax = new XMLHttpRequest();
-    ajax.addEventListener("load", reqListener);
-    ajax.open("DELETE", url, true);
-    ajax.send();
+        console.log(url);
+        var ajax = new XMLHttpRequest();
+        ajax.addEventListener("load", reqListener);
+        ajax.open("DELETE", url, true);
+        ajax.send();
+    }
 }
 
 function addArticle(targetElm, offsetFromHash, totalCountFromHash) {
@@ -252,7 +256,7 @@ function addArticle(targetElm, offsetFromHash, totalCountFromHash) {
         formTitle: "Article Add",
         submitBtTitle: "Save article",
     };
-    if (window.localStorage.getItem("authGoogle").length > 0) {
+    if (window.localStorage.getItem("authGoogle")?.length > 0) {
         const userdata = JSON.parse(window.localStorage.getItem("authGoogle"));
 
         data4rendering.author = userdata.given_name;
@@ -328,7 +332,7 @@ function fetchAndProcessArticle(
                 responseJSON.submitBtTitle = "Save article";
                 responseJSON.backLink = `#article/${artIdFromHash}/${offsetFromHash}/${totalCountFromHash}/1`;
 
-                if (window.localStorage.getItem("authGoogle").length > 0) {
+                if (window.localStorage.getItem("authGoogle")?.length > 0) {
                     const userdata = JSON.parse(
                         window.localStorage.getItem("authGoogle")
                     );
@@ -398,7 +402,7 @@ function fetchAndProcessArticle(
                     responseJSON.cancelLink = `#article/${responseJSON.id}/${offsetFromHash}/${totalCountFromHash}/1`;
                 }
 
-                if (window.localStorage.getItem("authGoogle").length > 0) {
+                if (window.localStorage.getItem("authGoogle")?.length > 0) {
                     const userdata = JSON.parse(
                         window.localStorage.getItem("authGoogle")
                     );

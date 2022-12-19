@@ -179,11 +179,13 @@ export default class articleFormsHandler {
 
             articleData.tags = articleData.tags.filter((tag) => tag); //odstráni tie tagy, ktoré sú teraz len prázdne reťazce
             //removes those tags that are now just empty strings
-            if (articleData.tags.length == 0) {
-                articleData.tags = [secretTag];
+            // if (articleData.tags.length === 0) {
+            //   articleData.tags = [secretTag];
+            // }
+            if (!articleData.tags.include(secretTag)) {
+                articleData.tags.push(secretTag);
             }
         }
-        articleData.tags.push(secretTag);
 
         //2. Set up the request
 
@@ -216,7 +218,7 @@ export default class articleFormsHandler {
             })
             .then((responseJSON) => {
                 //here we process the returned response data in JSON ...
-                window.alert("Updated article successfully saved on server");
+                // window.alert("Updated article successfully saved on server");
             })
             .catch((error) => {
                 ////here we process all the failed promises
@@ -269,12 +271,13 @@ export default class articleFormsHandler {
 
             articleData.tags = articleData.tags.filter((tag) => tag); //odstráni tie tagy, ktoré sú teraz len prázdne reťazce
             //removes those tags that are now just empty strings
-            if (articleData.tags.length == 0) {
-                articleData.tags = [secretTag];
+            // if (articleData.tags.length === 0) {
+            //   articleData.tags = [secretTag];
+            // }
+            if (!articleData.tags.include(secretTag)) {
+                articleData.tags.push(secretTag);
             }
         }
-
-        articleData.tags.push(secretTag);
 
         //2. Set up the request
 
@@ -307,7 +310,7 @@ export default class articleFormsHandler {
             })
             .then((responseJSON) => {
                 //here we process the returned response data in JSON ...
-                window.alert("Added article successfully saved on server");
+                // window.alert("Added article successfully saved on server");
                 // window.location.hash = `#article/${responseJSON.id}`;
             })
             .catch((error) => {

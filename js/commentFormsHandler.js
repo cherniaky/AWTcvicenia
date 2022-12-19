@@ -74,7 +74,7 @@ export default class commentFormsHandler {
             })
             .then((responseJSON) => {
                 //here we process the returned response data in JSON ...
-                window.alert("Added comment successfully saved on server");
+                // window.alert("Added comment successfully saved on server");
                 // window.location.hash = `#article/${responseJSON.id}`;
             })
             .catch((error) => {
